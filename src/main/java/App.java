@@ -14,6 +14,7 @@ public class App {
         App app = new App();
         int sessionId = app.auth();
         System.out.println(sessionId);
+        app.solveTask1(sessionId);
     }
 
     /**
@@ -55,5 +56,26 @@ public class App {
             }
         }
         return sessionId;
+    }
+
+    /**
+     * Solve task 1.
+     *
+     * To solve the task, we must send a POST request with the session ID
+     * and a {"msg": "Hello"} field.
+     *
+     * @param sessionId The students session ID.
+     */
+    private void solveTask1(int sessionId) {
+        JSONObject params = new JSONObject();
+        params.put("sessionId", String.valueOf(sessionId));
+        Request request = new Request();
+        String task = request.get("gettask/1", params);
+        System.out.println(task);
+        JSONObject data = new JSONObject();
+        data.put("sessionId", String.valueOf(sessionId));
+        data.put("msg", "Hello");
+        String response = request.post("solve", data);
+        System.out.println(response);
     }
 }
