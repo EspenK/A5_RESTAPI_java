@@ -14,6 +14,44 @@ import java.util.Scanner;
  */
 public class Request {
     /**
+     * Send a HTTP request to a webservice and return the body of the response.
+     *
+     * @param method The HTTP method (GET or POST).
+     * @param url The URL object for the webservice.
+     * @param data The data to send in a POST request.
+     * @return The body of the response as a string.
+     */
+    private String send(String method, URL url, JSONObject data) {
+        String result = "";
+        try {
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod(method);
+
+            if (method.toUpperCase().equals("POST")) {
+                connection.setDoOutput(true);
+                connection.setRequestProperty("Content-Type", "application/json");
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(data.toString().getBytes());
+                outputStream.flush();
+            }
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = connection.getInputStream();
+                result = convertToString(inputStream);
+                inputStream.close();
+            } else {
+                InputStream inputStream = connection.getErrorStream();
+                result = convertToString(inputStream);
+                inputStream.close();
+            }
+        } catch (IOException e) {
+            System.out.println("Something went wrong with the connection: " + e.getMessage());
+        }
+        return result;
+    }
+
+    /**
      * Create and return a URL object.
      *
      * @param baseUrl The base url (website).
