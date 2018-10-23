@@ -45,4 +45,18 @@ public class Request {
         }
         return url;
     }
+
+    /**
+     * Convert a input stream to string.
+     *
+     * @param inputStream The input stream.
+     * @return The content of the input stream as a string.
+     */
+    private String convertToString(InputStream inputStream) {
+        // Make a iterator out of the input stream by creating a scanner
+        // and splitting on the beginning of each string.
+        // Add each element of the scanner to the return string.
+        Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
+        return scanner.hasNext() ? scanner.next() : "";
+    }
 }
