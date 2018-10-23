@@ -25,6 +25,7 @@ public class App {
      */
     private int auth() {
         int sessionId = 0;
+
         Properties properties = new Properties();
         String fileName = "src/main/resources/auth.config";
         InputStream inputStream = null;
@@ -43,6 +44,7 @@ public class App {
             JSONObject data = new JSONObject();
             data.put("email", properties.get("auth.email"));
             data.put("phone", properties.get("auth.phone"));
+
             Request request = new Request();
             String result = request.post("auth", data);
             JSONObject resultData = new JSONParser().toJSON(result);
@@ -67,14 +69,19 @@ public class App {
      * @param sessionId The students session ID.
      */
     private void solveTask1(int sessionId) {
+        // ask for task 1
         JSONObject params = new JSONObject();
         params.put("sessionId", String.valueOf(sessionId));
         Request request = new Request();
+
         String task = request.get("gettask/1", params);
         System.out.println(task);
+
+        // solve task 1
         JSONObject data = new JSONObject();
         data.put("sessionId", String.valueOf(sessionId));
         data.put("msg", "Hello");
+
         String response = request.post("solve", data);
         System.out.println(response);
     }

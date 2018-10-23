@@ -56,6 +56,7 @@ public class Request {
             if (method.toUpperCase().equals("POST")) {
                 connection.setDoOutput(true);
                 connection.setRequestProperty("Content-Type", "application/json");
+
                 OutputStream outputStream = connection.getOutputStream();
                 outputStream.write(data.toString().getBytes());
                 outputStream.flush();
@@ -88,10 +89,12 @@ public class Request {
     private URL makeUrl(String baseUrl, String path, JSONObject params) {
         URL url = null;
         String urlString = baseUrl + path;
+
         if (params != null) {
             urlString += "?";
             StringBuilder stringBuilder = new StringBuilder();
             Iterator<String> keys = params.keys();
+
             while (keys.hasNext()) {
                 String key = keys.next();
                 if (stringBuilder.length() > 0) {
