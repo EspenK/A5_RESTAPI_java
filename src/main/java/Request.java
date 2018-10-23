@@ -14,6 +14,32 @@ import java.util.Scanner;
  */
 public class Request {
     /**
+     * Make a GET request.
+     *
+     * @param path The API endpoint.
+     * @param params The data to send in a POST request.
+     * @return The body of the response as a string.
+     */
+    public String get(String path, JSONObject params) {
+        String baseUrl = "http://104.248.47.74/dkrest/";
+        URL url = makeUrl(baseUrl, path, params);
+        return send("GET", url, null);
+    }
+
+    /**
+     * Make a POST request.
+     *
+     * @param path The API endpoint.
+     * @param data Key value pairs for parameters.
+     * @return The body of the response as a string.
+     */
+    public String post(String path, JSONObject data) {
+        String baseUrl = "http://104.248.47.74/dkrest/";
+        URL url = makeUrl(baseUrl, path, null);
+        return send("POST", url, data);
+    }
+
+    /**
      * Send a HTTP request to a webservice and return the body of the response.
      *
      * @param method The HTTP method (GET or POST).
